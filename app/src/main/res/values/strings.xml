@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">北海长亭</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="topic">北海发帖了</string>
+    <string name="reply">北海回复了</string>
+</resources>
