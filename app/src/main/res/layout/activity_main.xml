@@ -28,4 +28,13 @@
             android:text="查看帖子" />
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="12sp"
+        android:layout_alignParentBottom="true"
+        android:padding="16dp"
+        android:textColor="@color/abc_secondary_text_material_light"
+        android:text="点击启动服务按钮，系统将每隔15秒检测北海长亭发帖信息。如果检测到，将发出提示。\n点击查看帖子按钮，会打开发帖列表和回帖列表，左右滑动切换。\n支持我，请将软件告诉亲朋好友，多点点广告，么么哒。\n请保证在WIFI或网络通畅的情况下使用本软件，如果在移动网络，将会消耗较多的流量。"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

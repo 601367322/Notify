@@ -15,6 +15,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.sbb.notify.share.CommonShared;
+import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -69,63 +70,69 @@ public class MainService extends Service {
     }
 
     public void post() {
-        AsyncHttpClient httpClient = new AsyncHttpClient();
+        String open = MobclickAgent.getConfigParams(MainService.this, "open");
+        if (open.equals("on")) {
+            AsyncHttpClient httpClient = new AsyncHttpClient();
 
-        httpClient.post(this, "http://iguba.eastmoney.com/action.aspx?action=getuserreply&uid=5384013884094322&rnd=1432015773727", null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                JSONArray array = response.optJSONArray("re");
-                if (array != null) {
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject jo = array.optJSONObject(i);
-                        String te = jo.optString("te").replace("<br>", "");
-                        if (i == 0) {
-                            if (!cs.getReply().equals(te)) {
-                                cs.setReply(te);
-                                notify_(getString(R.string.reply), te);
-                            }
-                        }
-                        sb.append(te + "\n");
-                    }
-                }
-            }
-        });
-
-        httpClient.post(this, "http://iguba.eastmoney.com/5384013884094322", null, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                String sub = responseString.substring(responseString.indexOf("var itemdata =") + "var itemdata =".length()).trim();
-                String sub1 = sub.substring(0, sub.indexOf("};") + 1);
-                try {
-                    JSONObject response = new JSONObject(sub1);
+            httpClient.post(this, "http://iguba.eastmoney.com/action.aspx?action=getuserreply&uid=5384013884094322&rnd=1432015773727", null, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
                     JSONArray array = response.optJSONArray("re");
                     if (array != null) {
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject jo = array.optJSONObject(i);
-                            String tt = jo.optString("tt").replace("<br>", "");
+                            String te = jo.optString("te").replace("<br>", "");
                             if (i == 0) {
-                                if (!cs.getTopic().equals(tt)) {
-                                    cs.setTopic(tt);
-                                    notify_(getString(R.string.topic), tt);
+                                if (!cs.getReply().equals(te)) {
+                                    cs.setReply(te);
+                                    notify_(getString(R.string.reply), te);
                                 }
                             }
-                            sb.append(tt + "\n");
+                            sb.append(te + "\n");
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-                System.out.println(sub1);
-            }
-        });
+            });
+
+            httpClient.post(this, "http://iguba.eastmoney.com/5384013884094322", null, new TextHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                    String sub = responseString.substring(responseString.indexOf("var itemdata =") + "var itemdata =".length()).trim();
+                    String sub1 = sub.substring(0, sub.indexOf("};") + 1);
+                    try {
+                        JSONObject response = new JSONObject(sub1);
+                        JSONArray array = response.optJSONArray("re");
+                        if (array != null) {
+                            StringBuilder sb = new StringBuilder();
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject jo = array.optJSONObject(i);
+                                String tt = jo.optString("tt").replace("<br>", "");
+                                if (i == 0) {
+                                    if (!cs.getTopic().equals(tt)) {
+                                        cs.setTopic(tt);
+                                        notify_(getString(R.string.topic), tt);
+                                    }
+                                }
+                                sb.append(tt + "\n");
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(sub1);
+                }
+            });
+        }else{
+            stop();
+            stopSelf();
+        }
     }
 
     public void stop() {

@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -14,6 +16,9 @@ import android.widget.ToggleButton;
 
 import com.sbb.notify.share.CommonShared;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.fb.FeedbackAgent;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengRegistrar;
 
 import net.imageloader.tools.br.imakdg;
 import net.imageloader.tools.br.imandg;
@@ -40,22 +45,26 @@ public class MainActivity extends AppCompatActivity {
         } else {
             button.setChecked(false);
         }
-
+        MobclickAgent.updateOnlineConfig(MainActivity.this);
         button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Intent mIntent = new Intent();
-                    mIntent.setAction(MainService.START_SERVICE);
-                    mIntent.setPackage(getPackageName());
-                    startService(mIntent);
-                    cs.setSwitch(CommonShared.ON);
-                } else {
-                    Intent mIntent = new Intent();
-                    mIntent.setAction(MainService.STOP_SERVICE);
-                    mIntent.setPackage(getPackageName());
-                    startService(mIntent);
-                    cs.setSwitch(CommonShared.OFF);
+                MobclickAgent.updateOnlineConfig(MainActivity.this);
+                String open =MobclickAgent.getConfigParams(MainActivity.this,"open");
+                if(open.equals("on")) {
+                    if (isChecked) {
+                        Intent mIntent = new Intent();
+                        mIntent.setAction(MainService.START_SERVICE);
+                        mIntent.setPackage(getPackageName());
+                        startService(mIntent);
+                        cs.setSwitch(CommonShared.ON);
+                    } else {
+                        Intent mIntent = new Intent();
+                        mIntent.setAction(MainService.STOP_SERVICE);
+                        mIntent.setPackage(getPackageName());
+                        startService(mIntent);
+                        cs.setSwitch(CommonShared.OFF);
+                    }
                 }
             }
         });
@@ -77,10 +86,24 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.topic_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,ViewPagerActivity.class);
-                startActivity(intent);
+                MobclickAgent.updateOnlineConfig(MainActivity.this);
+                String open = MobclickAgent.getConfigParams(MainActivity.this, "open");
+                if (open.equals("on")) {
+                    Intent intent = new Intent(MainActivity.this, ViewPagerActivity.class);
+                    startActivity(intent);
+                }
             }
         });
+
+        PushAgent.getInstance(this).onAppStart();
+
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.enable();
+
+        String device_token = UmengRegistrar.getRegistrationId(this);
+        System.out.println(device_token);
+
+
     }
 
     public void showAd() {
@@ -108,6 +131,23 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
         }, 3000);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                FeedbackAgent agent = new FeedbackAgent(this);
+                agent.startFeedbackActivity();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void onResume() {
