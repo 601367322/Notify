@@ -69,7 +69,7 @@ public class ViewPagerActivity extends AppCompatActivity {
 
                         });
             }
-        }, 3000);
+        }, 15000);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

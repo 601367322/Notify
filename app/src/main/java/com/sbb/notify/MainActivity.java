@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
                         });
             }
-        }, 3000);
+        }, 15000);
     }
 
     @Override
