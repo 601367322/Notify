@@ -46,30 +46,33 @@ public class ViewPagerActivity extends AppCompatActivity {
         MobclickAgent.onPause(this);
     }
     public void showAd() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                imbzdg.isaypl(ViewPagerActivity.this).iscxpl(
-                        ViewPagerActivity.this, new imbydg() {
-                            @Override
-                            public void isbqpl() {
-                                Log.i("YoumiAdDemo", "展示成功");
-                            }
+        String open = MobclickAgent.getConfigParams(ViewPagerActivity.this, "open_ad");
+        if (open.equals("on")) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    imbzdg.isaypl(ViewPagerActivity.this).iscxpl(
+                            ViewPagerActivity.this, new imbydg() {
+                                @Override
+                                public void isbqpl() {
+                                    Log.i("YoumiAdDemo", "展示成功");
+                                }
 
-                            @Override
-                            public void isbppl() {
-                                Log.i("YoumiAdDemo", "展示失败");
-                                showAd();
-                            }
+                                @Override
+                                public void isbppl() {
+                                    Log.i("YoumiAdDemo", "展示失败");
+                                    showAd();
+                                }
 
-                            @Override
-                            public void isbrpl() {
-                                Log.i("YoumiAdDemo", "展示关闭");
-                            }
+                                @Override
+                                public void isbrpl() {
+                                    Log.i("YoumiAdDemo", "展示关闭");
+                                }
 
-                        });
-            }
-        }, 15000);
+                            });
+                }
+            }, 15000);
+        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

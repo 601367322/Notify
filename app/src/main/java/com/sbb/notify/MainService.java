@@ -152,8 +152,9 @@ public class MainService extends Service {
 
         builder.setContentText(content);
         builder.setDefaults(Notification.DEFAULT_ALL);
+        Intent intent = new Intent(this,ViewPagerActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
         Notification notification = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

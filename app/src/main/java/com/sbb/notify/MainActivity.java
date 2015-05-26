@@ -72,17 +72,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        String open = MobclickAgent.getConfigParams(MainActivity.this, "open_ad");
+        if (open.equals("on")) {
+            // 实例化LayoutParams(重要)
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT);
+            // 设置广告条的悬浮位置
+            layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT; // 这里示例为右下角
+            // 实例化广告条
+            imandg adView = new imandg(this, imakdg.FIT_SCREEN);
+            // 调用Activity的addContentView函数
 
-        // 实例化LayoutParams(重要)
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT);
-        // 设置广告条的悬浮位置
-        layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT; // 这里示例为右下角
-        // 实例化广告条
-        imandg adView = new imandg(this, imakdg.FIT_SCREEN);
-        // 调用Activity的addContentView函数
-
-        ((ViewGroup) findViewById(R.id.content)).addView(adView);
+            ((ViewGroup) findViewById(R.id.content)).addView(adView);
+        }
 
         showAd();
 
@@ -110,30 +112,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showAd() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                imbzdg.isaypl(MainActivity.this).iscxpl(
-                        MainActivity.this, new imbydg() {
-                            @Override
-                            public void isbqpl() {
-                                Log.i("YoumiAdDemo", "展示成功");
-                            }
+        String open = MobclickAgent.getConfigParams(MainActivity.this, "open_ad");
+        if (open.equals("on")) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    imbzdg.isaypl(MainActivity.this).iscxpl(
+                            MainActivity.this, new imbydg() {
+                                @Override
+                                public void isbqpl() {
+                                    Log.i("YoumiAdDemo", "展示成功");
+                                }
 
-                            @Override
-                            public void isbppl() {
-                                Log.i("YoumiAdDemo", "展示失败");
-                                showAd();
-                            }
+                                @Override
+                                public void isbppl() {
+                                    Log.i("YoumiAdDemo", "展示失败");
+                                    showAd();
+                                }
 
-                            @Override
-                            public void isbrpl() {
-                                Log.i("YoumiAdDemo", "展示关闭");
-                            }
+                                @Override
+                                public void isbrpl() {
+                                    Log.i("YoumiAdDemo", "展示关闭");
+                                }
 
-                        });
-            }
-        }, 15000);
+                            });
+                }
+            }, 15000);
+        }
     }
 
     @Override
