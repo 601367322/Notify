@@ -17,3 +17,16 @@ allprojects {
         jcenter()
     }
 }
+
+ext {
+    applicationId = "com.sbb.notify"
+    compileSdkVersion = 22
+    buildToolsVersion = "22.0.1"
+    checkReleaseBuilds = false
+    abortOnError = false
+    targetSdkVersion = 22
+    minSdkVersion = 14
+    versionCode = 1
+    versionName = "1.0"
+}
+

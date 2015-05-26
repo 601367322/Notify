@@ -19,6 +19,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengRegistrar;
+import com.umeng.update.UmengUpdateAgent;
 
 import net.imageloader.tools.br.imakdg;
 import net.imageloader.tools.br.imandg;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        UmengUpdateAgent.update(this);
 
         imafdg.getInstance(this).init("ee066029d422e628",
                 "12f79f9cc0e475ad", false);
