@@ -21,11 +21,6 @@
             android:textOff="启动服务"
             android:textOn="关闭服务" />
 
-        <Button
-            android:id="@+id/topic_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="查看帖子" />
 
     </LinearLayout>
 

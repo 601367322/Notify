@@ -3,6 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="topic">北海发帖了</string>
+    <string name="topic">新消息</string>
     <string name="reply">北海回复了</string>
 </resources>

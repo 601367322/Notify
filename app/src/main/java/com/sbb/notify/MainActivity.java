@@ -21,12 +21,6 @@ import com.umeng.message.PushAgent;
 import com.umeng.message.UmengRegistrar;
 import com.umeng.update.UmengUpdateAgent;
 
-import net.imageloader.tools.br.imakdg;
-import net.imageloader.tools.br.imandg;
-import net.imageloader.tools.imafdg;
-import net.imageloader.tools.st.imbydg;
-import net.imageloader.tools.st.imbzdg;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,9 +30,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         UmengUpdateAgent.update(this);
-
-        imafdg.getInstance(this).init("ee066029d422e628",
-                "12f79f9cc0e475ad", false);
 
         ToggleButton button = (ToggleButton) findViewById(R.id.toggleButton);
 
@@ -72,33 +63,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String open = MobclickAgent.getConfigParams(MainActivity.this, "open_ad");
-        if (open.equals("on")) {
-            // 实例化LayoutParams(重要)
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT);
-            // 设置广告条的悬浮位置
-            layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT; // 这里示例为右下角
-            // 实例化广告条
-            imandg adView = new imandg(this, imakdg.FIT_SCREEN);
-            // 调用Activity的addContentView函数
 
-            ((ViewGroup) findViewById(R.id.content)).addView(adView);
-        }
-
-        showAd();
-
-        findViewById(R.id.topic_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MobclickAgent.updateOnlineConfig(MainActivity.this);
-                String open = MobclickAgent.getConfigParams(MainActivity.this, "open");
-                if (open.equals("on")) {
-                    Intent intent = new Intent(MainActivity.this, ViewPagerActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
+//        findViewById(R.id.topic_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MobclickAgent.updateOnlineConfig(MainActivity.this);
+//                String open = MobclickAgent.getConfigParams(MainActivity.this, "open");
+//                if (open.equals("on")) {
+//                    Intent intent = new Intent(MainActivity.this, ViewPagerActivity.class);
+//                    startActivity(intent);
+//                }
+//            }
+//        });
 
         PushAgent.getInstance(this).onAppStart();
 
@@ -111,52 +87,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void showAd() {
-        String open = MobclickAgent.getConfigParams(MainActivity.this, "open_ad");
-        if (open.equals("on")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    imbzdg.isaypl(MainActivity.this).iscxpl(
-                            MainActivity.this, new imbydg() {
-                                @Override
-                                public void isbqpl() {
-                                    Log.i("YoumiAdDemo", "展示成功");
-                                }
-
-                                @Override
-                                public void isbppl() {
-                                    Log.i("YoumiAdDemo", "展示失败");
-                                    showAd();
-                                }
-
-                                @Override
-                                public void isbrpl() {
-                                    Log.i("YoumiAdDemo", "展示关闭");
-                                }
-
-                            });
-                }
-            }, 15000);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_settings:
-                FeedbackAgent agent = new FeedbackAgent(this);
-                agent.startFeedbackActivity();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.action_settings:
+//                FeedbackAgent agent = new FeedbackAgent(this);
+//                agent.startFeedbackActivity();
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public void onResume() {
         super.onResume();

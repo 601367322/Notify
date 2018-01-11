@@ -15,8 +15,6 @@ import android.support.v7.app.ActionBar;
 
 import com.umeng.analytics.MobclickAgent;
 
-import net.imageloader.tools.st.imbydg;
-import net.imageloader.tools.st.imbzdg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,35 +43,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         super.onPause();
         MobclickAgent.onPause(this);
     }
-    public void showAd() {
-        String open = MobclickAgent.getConfigParams(ViewPagerActivity.this, "open_ad");
-        if (open.equals("on")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    imbzdg.isaypl(ViewPagerActivity.this).iscxpl(
-                            ViewPagerActivity.this, new imbydg() {
-                                @Override
-                                public void isbqpl() {
-                                    Log.i("YoumiAdDemo", "展示成功");
-                                }
 
-                                @Override
-                                public void isbppl() {
-                                    Log.i("YoumiAdDemo", "展示失败");
-                                    showAd();
-                                }
-
-                                @Override
-                                public void isbrpl() {
-                                    Log.i("YoumiAdDemo", "展示关闭");
-                                }
-
-                            });
-                }
-            }, 15000);
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,7 +122,6 @@ public class ViewPagerActivity extends AppCompatActivity {
 
             }
         });
-        showAd();
     }
 
     class mPagerAdapter extends FragmentPagerAdapter {
